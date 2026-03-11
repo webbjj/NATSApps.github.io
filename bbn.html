@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Minimal Big Bang Nucleosynthesis Demo</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body { font-family: Arial; margin: 20px; }
+.slider-container { margin: 15px 0; }
+canvas { max-width: 800px; }
+.value { font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h2>Minimal Big Bang Nucleosynthesis Demo</h2>
+
+<div class="slider-container">
+<label>Weak Interaction Strength (A): </label>
+<input type="range" id="weakStrength" min="0.1" max="5" step="0.1" value="1">
+<span class="value" id="weakValue">1</span>
+</div>
+
+<div>
+Helium-4 Mass Fraction: <span class="value" id="heliumOutput"></span>
+</div>
+
+<canvas id="rateChart"></canvas>
+
+<script>
+const delta_m = 1.293;     // MeV
+const tau_n = 880;        // seconds
+
+const weakSlider = document.getElementById("weakStrength");
+const weakValue = document.getElementById("weakValue");
+const heliumOutput = document.getElementById("heliumOutput");
+
+function temperature(t) {
+    return 1.0 / Math.sqrt(t);  // MeV
+}
+
+function hubble(t) {
+    return 1.0 / (2.0 * t);
+}
+
+function weakRate(T, A) {
+    return A * Math.pow(T, 5);
+}
+
+function computeBBN(A) {
+
+    let freezeTime = null;
+    let np_freeze = null;
+
+    let times = [];
+    let Hvals = [];
+    let Gvals = [];
+
+    for (let t = 0.01; t < 1000; t *= 1.05) {
+
+        let T = temperature(t);
+        let H = hubble(t);
+        let G = weakRate(T, A);
+
+        times.push(t);
+        Hvals.push(H);
+        Gvals.push(G);
+
+        if (!freezeTime && G < H) {
+            freezeTime = t;
+            np_freeze = Math.exp(-delta_m / T);
+        }
+    }
+
+    if (!freezeTime) {
+        freezeTime = 1;
+        np_freeze = 0.2;
+    }
+
+    // Evolve neutrons until 200 seconds (when helium forms)
+    let t_nuc = 200;
+    let np_final = np_freeze * Math.exp(-(t_nuc - freezeTime)/tau_n);
+
+    let Yp = (2*np_final)/(1 + np_final);
+
+    return { times, Hvals, Gvals, Yp };
+}
+
+let chart = new Chart(document.getElementById("rateChart"), {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [
+            {
+                label: 'Expansion Rate H',
+                data: [],
+                borderColor: 'blue',
+                fill: false
+            },
+            {
+                label: 'Weak Rate Γ',
+                data: [],
+                borderColor: 'red',
+                fill: false
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: {
+                type: 'logarithmic',
+                title: { display: true, text: 'Time (s)' }
+            },
+            y: {
+                type: 'logarithmic',
+                title: { display: true, text: 'Rate' }
+            }
+        }
+    }
+});
+
+function update() {
+    let A = parseFloat(weakSlider.value);
+    weakValue.textContent = A.toFixed(1);
+
+    let result = computeBBN(A);
+
+    chart.data.labels = result.times;
+    chart.data.datasets[0].data = result.Hvals;
+    chart.data.datasets[1].data = result.Gvals;
+    chart.update();
+
+    heliumOutput.textContent = result.Yp.toFixed(3);
+}
+
+weakSlider.addEventListener("input", update);
+
+update();
+</script>
+
+</body>
+</html>

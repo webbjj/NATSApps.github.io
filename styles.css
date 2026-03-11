@@ -1,0 +1,121 @@
+body{
+	width: 99%;
+	height: 99%;
+	gap: 1%;
+	font-family: arial;
+	background:linear-gradient(180deg,#0b1020,#0a0f1f 40%,#060a18);
+	color:var(--ink);
+
+}
+
+
+
+div,h1,h2,h3,p,ul{
+	color: white;
+}
+
+	input[type='number'] {
+	width: 50px; 
+	}
+
+#title {
+	overflow: auto;
+	height: 10vh;
+	gap: 1%;
+	display: flex;
+}
+
+#content {
+	overflow: auto;
+	height: 88vh;
+	gap: 1%;
+	display: flex;
+}
+
+#plot {
+	border-style: groove;
+	border-radius: 10px;
+	gap:;
+}
+
+#modelDetails {
+	margin-top: 20px;
+	color: white;
+
+}
+
+.horizontal-layout{
+    flex-direction: column;
+}
+
+.control {
+	float: left;
+	width: 20%;
+	background:linear-gradient(180deg,#121a35,#0f1630);
+	padding: 10px;
+	margin: 0.5%;
+}
+
+.figure {
+	float: left;
+	width: 73%;
+	background:linear-gradient(180deg,#121a35,#0f1630);
+	padding: 10px;
+	margin: 0.5%;
+}
+
+.widepanel{
+	float: left;
+	width: 95%;
+	background:linear-gradient(180deg,#121a35,#0f1630);
+	padding: 10px;
+	margin: 0.5%;
+}
+
+.panel {
+	padding: 5px;
+	border-style: groove;
+	margin: 5px;
+	border-radius: 10px;
+	background:linear-gradient(180deg,#121a35,#0f1630);
+}
+
+.button {
+	margin: 5px;
+}
+
+.param-row {
+    display: flex;
+    flex-direction: column;   /* stack vertically */
+    gap: 5px;
+    margin-bottom: 1px;
+}
+
+.slider-wrap {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.slider-wrap input[type="range"] {
+    flex: 1;
+}
+
+.slider-wrap input[type="number"] {
+    width: 40px;
+}
+
+.param-unit {
+    min-width: 35px;
+    font-size: 0.9em;
+    opacity: 0.8;
+}
+
+.model-grid {
+	padding: 2px;
+	border-style: groove;
+	margin: 2px;
+	border-radius: 10px;
+	background:linear-gradient(180deg,#121a35,#0f1630);
+	border: dashed;
+}

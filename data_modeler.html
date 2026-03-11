@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<meta charset="utf-8"/>
+	<head>
+		<title> Data Modeling Application </title>
+
+		<link rel="stylesheet" type="text/css" href="styles.css">
+
+	</head>
+
+	<body>
+
+		<div class="title">
+			<h1 style="margin:12px"> Data Modeling Application </h1>
+		</div>
+
+		<div id="content">
+
+			<div class="control">
+
+				<div class="panel">
+					<h2> Data </h2>
+					<div style="display:flex;gap:12px;flex-wrap:wrap">
+						<div class="button"> <button id="fileLoad">Open CSV</button> </div>
+						<div class="button"> <button id="reset">Reset</button> </div>
+					</div>
+
+					<input id="fileInput" type="file" accept=".csv,text/csv" style="display:none"/>
+
+
+				</div>
+
+				<div class="panel">
+					<h2> Model </h2>
+					<div style="display:flex;gap:12px;flex-wrap:wrap">
+
+						<select id="modelType">
+							<option value="none"> None </option>
+							<option value="linear"> Linear </option>
+							<option value="powerlaw"> Power Law </option>
+							<option value="exponential"> Exponential </option>
+							<option value="sinusoidal"> Sinusoidal </option>
+							<option value="gaussian"> Gaussian </option>
+						</select>
+
+	 					<label><input type="checkbox" id="showmod"/> Show</label>
+
+					</div>
+
+					<br>
+
+					<div id="modelFormula"> <p> --------------- </p> </div>
+
+					<div>
+						<label id="nlabel"> N = <input type="number" id="nmod" value="10" step="5" min="10" disabled> </label>
+					</div>
+
+					<br>
+
+
+					<div id="modelParams" class="model-grid"> 
+
+						<div class="param-row">
+						    <label for="modA_slider">A</label>
+
+						    <div class="slider-wrap">
+						        <input type="range"
+						               id="modA_slider"
+						               min="0"
+						               max="100"
+						               step="0.1"
+						               value="0"
+						               disabled>
+
+						        <input type="number"
+						               id="modA"
+						               min="0"
+						               max="100"
+						               step="0.1"
+						               value="0"
+						               disabled>
+						    </div>
+						</div>
+
+						<div class="param-row">
+						    <label for="modB">B</label>
+
+						    <div class="slider-wrap">
+						        <input type="range"
+						               id="modB_slider"
+						               min="0"
+						               max="100"
+						               step="0.1"
+						               value="0"
+						               disabled>
+
+						        <input type="number"
+						               id="modB"
+						               min="0."
+						               max="100"
+						               step="0.1"
+						               value="0"
+						               disabled>
+						    </div>
+						</div>
+
+						<div class="param-row">
+						    <label for="modC">C</label>
+
+						    <div class="slider-wrap">
+						        <input type="range"
+						               id="modC_slider"
+						               min="0"
+						               max="100"
+						               step="0.1"
+						               value="0"
+						               disabled>
+
+						        <input type="number"
+						               id="modC"
+						               min="0."
+						               max="100"
+						               step="0.1"
+						               value="0"
+						               disabled>
+						    </div>
+						</div>
+
+						<div class="param-row">
+						    <label for="modD">D</label>
+
+						    <div class="slider-wrap">
+						        <input type="range"
+						               id="modD_slider"
+						               min="0"
+						               max="100"
+						               step="0.1"
+						               value="0"
+						               disabled>
+
+						        <input type="number"
+						               id="modD"
+						               step="0.1"
+						               value="0"
+						               disabled>
+						    </div>
+						</div>
+
+						<!---
+						<div style="gap:12px;" id="modelParams"> 
+							<label>A: <input type="number" id="modA" value="0" step="0.1" disabled></label>
+							<br>
+							<label>B: <input type="number" id="modB" value="0" step="0.1" disabled></label>
+							<br>
+							<label>C: <input type="number" id="modC" value="0" step="0.1" disabled></label>
+							<br>
+							<label>D: <input type="number" id="modD" value="0" step="0.1" disabled></label>
+						</div>
+						--->
+					</div>
+
+				</div>
+
+      			<div class="panel">
+
+					<h2> Plot Controls </h2>
+
+					<div id='axiscontrols'>
+
+					<div style="display:flex;gap:12px;flex-wrap:wrap">
+ 						<label>X Min <input type="number" id="xmin" value="-1", step="0.1"> </label>
+ 						<label>X Max <input type="number" id="xmax" value="1", step="0.1"> </label>
+ 					</div>
+ 					<br>
+ 					<div style="display:flex;gap:12px;flex-wrap:wrap">
+ 						<label>Y Min <input type="number" id="ymin" value="-1", step="0.1"> </label>
+ 						<label>Y Max <input type="number" id="ymax" value="1", step="0.1"> </label>
+				    </div>
+
+					</div>
+
+				    <br>
+
+ 					<div style="display:flex; flex-direction:column; gap:12px;">
+ 						<button id="autoscale">Autoscale</button>
+ 						<div style="display:flex;gap:12px;flex-wrap:wrap">
+	 						<label><input type="checkbox" id="xlogplot"/> Log X-Axis</label>
+	 						<label><input type="checkbox" id="ylogplot"/> Log Y-Axis</label>
+ 						</div>
+				    </div>
+
+
+				</div>
+
+
+			</div>
+
+
+			<div class="figure">
+      			<div id="plot" style="height:100%"></div>
+			</div>
+
+		</div>
+
+		<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+		<script type="text/javascript" src="functions.js"></script>
+		<script type="text/javascript" src="plotting.js"></script>
+		<script type="text/javascript" src="modeling.js"></script>
+
+	</body>
+</html>

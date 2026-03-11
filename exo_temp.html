@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<meta charset="utf-8"/>
+	<head>
+		<title> Exoplanet Temperature Modeling Application </title>
+
+		<link rel="stylesheet" type="text/css" href="styles.css">
+
+	</head>
+
+	<body>
+
+		<div class="title">
+			<h1 style="margin:12px"> Exoplanet Temperature Modeling Application </h1>
+		</div>
+
+		<div id="content">
+
+			<div class="control">
+
+				<div class="panel">
+					<h2> Model </h2>
+					<div style="display:flex;gap:12px;flex-wrap:wrap">
+
+						<div class="button"> 
+							<button id="reset">Reset</button> 
+							<input type="checkbox" id="showmod" checked hidden=true/> 
+						</div>
+
+						<br>
+
+						<div id="modelType">
+							<input type="radio" id="tequilibrium" name="modtype" value="teq" checked>
+							<label for="teq"> <span title="Temperature when incoming solar energy is balanced against energy emitted by the exoplanet.">Equilibrium Temperature</span></label><br>
+							<input type="radio" id="teffective" name="modtype" value="teff">
+							<label for="teff"> <span title="Same as equilibrium temperature, but also attempts to account for the presence of greenhouse gases in the atmosphere.">Effective Temperature</span> </label><br>
+							<input type="radio" id="tsurface" name="modtype" value="tsurf">
+							<label for="tsurf"><span title="Same as effective temperature, but also attempts to account for surface temperature being higher than due to pressure and atmospheric effects.">Surface Temperature</span></label><br>
+						</div>
+
+					</div>
+
+					<br>
+
+					<div id="modelFormula"> <p> T<sub>eq</sub> = [ (1 − A)·L / (16πσ d²) ]<sup>1/4</sup> </p> </div>
+
+					<br>
+
+					<div id="modelParams" class="model-grid"> 
+
+						<div class="param-row">
+						    <label for="Lstar">Luminosity (L)</label>
+
+						    <div class="slider-wrap">
+						        <input type="range"
+						               id="Lstar_slider"
+						               min="0.1"
+						               max="10"
+						               step="0.1"
+						               value="1">
+
+						        <input type="number"
+						               id="Lstar"
+						               min="0.1"
+						               max="10"
+						               step="0.1"
+						               value="1">
+
+						        <span class="param-unit">L <sub>&odot;</sub></span>
+
+						    </div>
+						</div>
+
+						<div class="param-row">
+						    <label for="Albedo">Albedo (A)</label>
+
+						    <div class="slider-wrap">
+						        <input type="range"
+						               id="Albedo_slider"
+						               min="0."
+						               max="100"
+						               step="0.1"
+						               value="0">
+
+						        <input type="number"
+						               id="Albedo"
+						               min="0."
+						               max="100"
+						               step="0.1"
+						               value="0">
+								<span class="param-unit"></span>
+						    </div>
+						</div>
+
+						<div class="param-row">
+						    <label for="Ggas">Greenhouse Gas (gh)</label>
+
+						    <div class="slider-wrap">
+						        <input type="range"
+						               id="Ggas_slider"
+						               min="0."
+						               max="100"
+						               step="0.1"
+						               value="0"
+						               disabled>
+
+						        <input type="number"
+						               id="Ggas"
+						               min="0."
+						               max="100"
+						               step="0.1"
+						               value="0"
+						               disabled>
+
+						        <span class="param-unit"></span>
+
+						    </div>
+						</div>
+
+						<div class="param-row">
+						    <label for="Semi">Orbital Distance (d)</label>
+
+						    <div class="slider-wrap">
+						        <input type="range"
+						               id="Semi_slider"
+						               min="0.01"
+						               max="100"
+						               step="0.01"
+						               value="1">
+
+						        <input type="number"
+						               id="Semi"
+						               min="0.01"
+						               max="100"
+						               step="0.01"
+						               value="1">
+						        <span class="param-unit">AU</span>
+						    </div>
+						</div>
+
+						<!---<label>Luminosity (L): <input type="number" id="Lstar" value="1" step="0.1" min="0" max="100"></label>
+						<br>
+						<label>Albedo (A): <input type="number" id="Albedo" value="0" step="0.1" min="0" max="100"></label>
+						
+						<br>
+						<label>Greenhouse Gas (gh): <input type="number" id="Ggas" value="0" step="0.1" min="0" max="100" disabled></label>
+						<br>
+						<label>Orbital Distance (d): <input type="number" id="Semi" value="1" step="0.1" min=0.00001 max="1000"></label>
+						--->
+					</div>
+
+				</div>
+
+      			<div class="panel">
+
+					<h2> Plot Controls </h2>
+
+					<div id='axiscontrols'>
+
+					<div style="display:flex;gap:12px;flex-wrap:wrap">
+ 						<label>X Min <input type="number" id="xmin" min=0 value="0", step="0.1"> </label>
+ 						<label>X Max <input type="number" id="xmax" min=0.01 value="20", step="0.1"> </label>
+ 					</div>
+ 					<br>
+ 					<div style="display:flex;gap:12px;flex-wrap:wrap">
+ 						<label>Y Min <input type="number" id="ymin" value="0", min=0 step="1"> </label>
+ 						<label>Y Max <input type="number" id="ymax" value="400", step="1"> </label>
+				    </div>
+
+					</div>
+
+				    <br>
+
+ 					<div style="display:flex; flex-direction:column; gap:12px;">
+ 						<button id="autoscale">Autoscale</button>
+ 						<div style="display:flex;gap:12px;flex-wrap:wrap">
+	 						<label><input type="checkbox" id="xlogplot"/> Log X-Axis</label>
+	 						<label><input type="checkbox" id="ylogplot"/> Log Y-Axis</label>
+ 						</div>
+				    </div>
+
+
+				</div>
+
+
+			</div>
+
+
+			<div class="figure">
+      			<div id="plot" style="height:100%"></div>
+			</div>
+
+		</div>
+
+		<dialog id="teqmodal">
+		  <h2>Modal Title</h2>
+		  <p>This is the content of the modal window. Modals are awesome!</p>
+		  <button id="closeModalBtn">Close</button>
+		</dialog>
+
+		<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+		<script type="text/javascript" src="functions.js"></script>
+		<script type="text/javascript" src="plotting.js"></script>
+		<script type="text/javascript" src="temperature.js"></script>
+
+	</body>
+</html>
