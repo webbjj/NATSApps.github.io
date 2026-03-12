@@ -125,6 +125,10 @@ if (modtype!=null){
 		updateModel();
 	});
 	
+	//Autoscale button
+	document.getElementById('autoscale').addEventListener('click', function () {
+		autoscale();   // defaults to includeModel = true
+	});
 
 	modtype.addEventListener('change', function(event) {
 
